@@ -70,6 +70,32 @@ For example, to run Tic-Tac-Toe:
 java -jar target/threeinarow-1.0.0-SNAPSHOT.jar TicTacToe
 ```
 
+### Model-View-Controller (MVC) architecture
+
+The application follows the **Model-View-Controller (MVC)** architectural pattern to separate the game state, the user interface, and the logic that coordinates them.
+
+- **Model (`model` package):** `RowGameModel` stores the overall state of a match, including the 3x3 board, the current player, the number of remaining moves, and the game result. Each cell is represented by a `RowBlockModel`, which stores its mark and whether a move is allowed in that cell. The model is independent of Swing components and publishes property-change events when relevant state changes.
+- **View (`view` package):** `RowGameGUI` builds the main Swing window and brings together `RowGameBoardView` and `RowGameStatusView`. `RowGameBoardView` displays the board and captures cell clicks, while `RowGameStatusView` displays whose turn it is and the final result. Both views listen for property changes from the model and update the interface when the state changes.
+- **Controller (`controller` package):** `RowGameController` receives user actions from the views and coordinates updates to the model. It processes moves, checks whether the game has been won or drawn, advances the turn when play continues, and disables further moves when the game ends. It also handles resets.
+
+A typical move follows this sequence:
+
+1. The player clicks a cell in `RowGameBoardView`.
+2. The view passes the selected row and column to `RowGameController`.
+3. The controller applies the move to `RowGameModel` and checks the game outcome.
+4. The model publishes property-change events through `PropertyChangeSupport`.
+5. `RowGameBoardView` and `RowGameStatusView`, which registered `PropertyChangeListener`s, receive those events and refresh the relevant parts of the interface.
+
+This event-based communication uses the **Observer** pattern for model-to-view notifications. The views are therefore updated in response to model changes rather than having to poll the game state.
+
+### Strategy pattern
+
+The rules for each game mode are separated from the controller using the **Strategy** design pattern:
+
+- `RowGameRulesStrategy` defines the common operations for resetting the board and applying a move.
+- `RowGameRulesThreeInARow` and `RowGameRulesTicTacToe` implement the rules for their respective game modes.
+- `RowGameController` delegates rule-specific operations to the active strategy. `RowGameApp` selects the strategy based on the optional command-line argument.
+
 ### How to clean up
 
 Remove generated build files with:
