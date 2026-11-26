@@ -35,6 +35,16 @@ mvn verify
 
 The verification requires at least 70% line coverage. Checkstyle uses the rules in `checkstyle.xml`; violations fail the verification build.
 
+### Maven Site & Checkstyle Report
+
+Generate the Maven project site with:
+
+```bash
+mvn clean site
+```
+
+Open `target/site/index.html` for the full Maven site or `target/site/checkstyle.html` directly for the Checkstyle report.
+
 ### Javadoc
 
 Generate the Javadoc documentation with:
