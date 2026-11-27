@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import controller.RowGameController;
 import model.RowGameModel;
@@ -55,11 +53,7 @@ public class RowGameGUI {
         gui.add(options, BorderLayout.CENTER);
         gui.add(messages, BorderLayout.SOUTH);
 
-        reset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                gameController.reset(gameModel);
-            }
-        });
+        reset.addActionListener(e -> gameController.reset(gameModel));
         gameController.reset(gameModel);
     }
 }

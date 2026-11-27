@@ -6,7 +6,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * The RowBlockModel class represents a given block in the game.
  */
-public class RowBlockModel {
+public final class RowBlockModel {
     /**
      * The game that contains this block.
      */
@@ -38,7 +38,8 @@ public class RowBlockModel {
         }
 
         this.game = game;
-        this.reset();
+        this.contents = "";
+        this.isLegalMove = false;
     }
 
     /**

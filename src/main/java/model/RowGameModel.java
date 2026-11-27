@@ -95,7 +95,7 @@ public class RowGameModel {
                 blocksData[row][col] = new RowBlockModel(this);
             }
         }
-        reset();
+        initState();
     }
 
     /**
@@ -160,6 +160,12 @@ public class RowGameModel {
     public void nextTurn() {
         player = player.nextTurn();
         pcs.firePropertyChange("player", null, player);
+    }
+
+    private void initState() {
+        movesLeft = 9;
+        result = Result.Ongoing;
+        player = Player.Player1;
     }
 
     /**
