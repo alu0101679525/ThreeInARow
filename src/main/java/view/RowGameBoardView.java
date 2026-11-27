@@ -4,10 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -46,25 +42,20 @@ public class RowGameBoardView {
                 blocks[row][column].putClientProperty("col", column);
                 blocks[row][column].setPreferredSize(new Dimension(75, 75));
                 game.add(blocks[row][column]);
-                blocks[row][column].addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        JButton button = (JButton) e.getSource();
-                        int row = (int) button.getClientProperty("row");
-                        int col = (int) button.getClientProperty("col");
-                        gameController.move(gameModel, row, col);
-                    }
+                blocks[row][column].addActionListener(e -> {
+                    JButton button = (JButton) e.getSource();
+                    int cellRow = (int) button.getClientProperty("row");
+                    int cellCol = (int) button.getClientProperty("col");
+                    gameController.move(gameModel, cellRow, cellCol);
                 });
                 JButton button = blocks[row][column];
-                gameModel.blocksData[row][column].addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent e) {
-                        String property = e.getPropertyName();
-                        if (property.equals("content")) {
-                            button.setText((String) e.getNewValue());
-                        }
-                        if (property.equals("legal")) {
-                            button.setEnabled((boolean) e.getNewValue());
-                        }
+                gameModel.blocksData[row][column].addPropertyChangeListener(e -> {
+                    String property = e.getPropertyName();
+                    if (property.equals("content")) {
+                        button.setText((String) e.getNewValue());
+                    }
+                    if (property.equals("legal")) {
+                        button.setEnabled((boolean) e.getNewValue());
                     }
                 });
             }
