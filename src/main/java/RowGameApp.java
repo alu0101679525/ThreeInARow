@@ -1,3 +1,5 @@
+import javax.swing.SwingUtilities;
+
 import controller.RowGameController;
 import controller.RowGameRulesStrategy;
 import controller.RowGameRulesThreeInARow;
@@ -15,15 +17,14 @@ public class RowGameApp {
      * @param args Command-line arguments; pass {@code "ThreeInARow"} (default) or another value for Tic-Tac-Toe.
      */
     public static void main(String[] args) {
-        RowGameRulesStrategy rule;
-        RowGameModel model = new RowGameModel();
-        if (args.length == 0 || args[0].equals("ThreeInARow")) {
-            rule = new RowGameRulesThreeInARow();
-        } else {
-            rule = new RowGameRulesTicTacToe();
-        }
-        RowGameController controller = new RowGameController(model, rule);
-        RowGameGUI gui = new RowGameGUI(controller, model);
-        gui.gui.setVisible(true);
+        final RowGameRulesStrategy rule = (args.length == 0 || args[0].equals("ThreeInARow"))
+                ? new RowGameRulesThreeInARow()
+                : new RowGameRulesTicTacToe();
+        SwingUtilities.invokeLater(() -> {
+            RowGameModel model = new RowGameModel();
+            RowGameController controller = new RowGameController(model, rule);
+            RowGameGUI gui = new RowGameGUI(controller, model);
+            gui.gui.setVisible(true);
+        });
     }
 }

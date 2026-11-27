@@ -35,15 +35,25 @@ mvn verify
 
 The verification requires at least 70% line coverage. Checkstyle uses the rules in `checkstyle.xml`; violations fail the verification build.
 
-### Maven Site & Checkstyle Report
+### Maven Site & Analysis Reports
 
-Generate the Maven project site with:
+Generate the Maven project site (including **Checkstyle**, **PMD**, **CPD**, and **SpotBugs** reports under **Project Reports**) with:
 
 ```bash
 mvn clean site
 ```
 
-Open `target/site/index.html` for the full Maven site or `target/site/checkstyle.html` directly for the Checkstyle report.
+Open `target/site/index.html` for the full Maven site or open individual reports directly (`target/site/checkstyle.html`, `target/site/pmd.html`, `target/site/cpd.html`, `target/site/spotbugs.html`).
+
+You can also run the static analysis and security plugins individually:
+
+```bash
+mvn pmd:pmd pmd:cpd
+mvn spotbugs:spotbugs
+mvn dependency-check:check
+```
+
+OWASP Dependency-Check generates `target/dependency-check-report.html` (set `NVD_API_KEY` for NVD API updates, or pass `-DautoUpdate=false` offline).
 
 ### Javadoc
 
