@@ -21,6 +21,7 @@ USER appuser
 ENV DISPLAY=:99 \
     SCREEN_GEOMETRY=500x350x24 \
     VNC_PORT=5900
-EXPOSE 5900
+# Sin EXPOSE: VNC (5900) es un servicio de administración (Sonar docker:S6473).
+# El puerto se publica de forma explícita y solo en local con -p 127.0.0.1:5900:5900.
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD []
